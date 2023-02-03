@@ -2,8 +2,13 @@ import numpy as np
 
 PRNG = np.random.default_rng()
 
-def default_rv(prng=PRNG):
-    return prng.binomial(n=10, p=.5) + 1
+def binomial(prng=PRNG):
+    return prng.binomial(n=20, p=.1) + 1
+
+def poisson(prng=PRNG):
+    return prng.poisson(lam=3) + 1
+
+default_rv = binomial
 
 def play_random(score=None, player_on_the_move=0, rv=default_rv, prng=PRNG):
     '''Random simulation of the game.
@@ -83,7 +88,7 @@ def assesment(number_of_rolls,
 
     for _ in range(n):
         score_ = list(score)
-        rolls = np.random.randint(low=1, high=7, size=2 * number_of_rolls)
+        rolls = prng.integers(low=1, high=7, size=2 * number_of_rolls)
         
         if (rolls != 1).all():
             score_[player_on_the_move] += rolls.sum()
@@ -125,7 +130,6 @@ def pc_on_the_move(score, player):
                                n=5000)
 
     while True:
-        # print(f'Move assesment {move_assesment}')
         print(f'Checking number of rolls: {number_of_rolls + 1}.')
         one_more_roll_assesment = assesment(number_of_rolls + 1,
                                              player_on_the_move=player,
